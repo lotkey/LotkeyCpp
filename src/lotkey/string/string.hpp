@@ -1,6 +1,6 @@
 #pragma once
 
-#include "map.hpp"
+#include "lotkey/map/map.hpp"
 
 #include <cstring>
 #include <iostream>
@@ -124,7 +124,7 @@ public:
   bool operator==(string const &str) const;
   bool operator!=(string const &str) const;
 
-  static constexpr size_t npos{-1};
+  static constexpr size_t npos{(size_t)-1};
 
 private:
   static map<char *, size_t> s_ref_counts;
