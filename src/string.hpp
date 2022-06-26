@@ -110,6 +110,10 @@ public:
   /// Returns a substring of the string, starting at `start` and spanning `len`
   /// characters
   string substring(size_t start, size_t len) const;
+  size_t find_first_of(char c) const;
+  size_t find_last_of(char c) const;
+  size_t find_first_not_of(char c) const;
+  size_t find_last_not_of(char c) const;
 
   /// Returns a concatenated string
   string operator+(string const &str) const;

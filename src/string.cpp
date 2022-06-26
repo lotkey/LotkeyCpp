@@ -157,6 +157,42 @@ string string::substring(size_t start, size_t len) const {
   return string(m_str, m_len, m_start + start, len);
 }
 
+size_t string::find_first_of(char c) const {
+  for (size_t i = 0; i < m_len; i++) {
+    if (at(i) == c) {
+      return i;
+    }
+  }
+  return npos;
+}
+
+size_t string::find_last_of(char c) const {
+  for (size_t i = m_len - 1; i >= 0 && i != npos; i--) {
+    if (at(i) == c) {
+      return i;
+    }
+  }
+  return npos;
+}
+
+size_t string::find_first_not_of(char c) const {
+  for (size_t i = 0; i < m_len; i++) {
+    if (at(i) != c) {
+      return i;
+    }
+  }
+  return npos;
+}
+
+size_t string::find_last_not_of(char c) const {
+  for (size_t i = m_len - 1; i >= 0 && i != npos; i--) {
+    if (at(i) != c) {
+      return i;
+    }
+  }
+  return npos;
+}
+
 string string::operator+(string const &str) const {
   string new_str{*this};
   new_str += str;
