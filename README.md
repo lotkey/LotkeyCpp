@@ -256,7 +256,7 @@ lk::string s2{s1};
 s1.pop_back();
 ```
 
-`s1`'s and `s2`'s C-style substring reference after:
+`s1`'s and `s2`'s C-style substring reference before:
 ```
 t e s t \0
 ^     ^
