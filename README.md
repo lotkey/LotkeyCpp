@@ -3,7 +3,7 @@ Lotkey C++ libraries
 
 ## lk::map
 
-*Inherits from std::map*
+*Inherits from std::map.*
 
 ---
 ```cpp
@@ -19,7 +19,31 @@ Whether the map contains a value for the provided key
 
 ## lk::string
 
-*Reference-counting-based string implementation*
+*Reference-counting-based string implementation. Each string contains a reference to a substring of a C-string. This includes the address of the C-string, the address of the start of the substring of the C-string being referenced, and the length of the substring of the C-string being referenced.*
+
+```cpp
+lk::string s1{"test_string"};
+lk::string s2{s1.substring(2, 3)};
+```
+
+`s1`'s C-style substring reference:
+```
+t e s t _ s t r i n g \0
+^                   ^
+|                   |
+|                   End of the substring
+Beginning of the C-string, Beginning of the substring
+```
+
+`s2`'s C-style substring reference:
+```
+t e s t _ s t r i n g \0
+^   ^   ^
+|   |   |
+|   |   End of the substring
+|   Beginning of the substring
+Beginning of the C-string
+```
 
 ---
 ```cpp
@@ -236,8 +260,8 @@ The C-style substring reference before:
 t e s t \0
 ^     ^
 |     |
-|     Reference to beginning of substring + length of substring
-Reference to beginning of substring
+|     End of the substring
+Beginning of the C-string, Beginning of the substring
 ```
 
 The C-style substring reference after:
@@ -245,8 +269,8 @@ The C-style substring reference after:
 t e s \0 \0
 ^   ^
 |   |
-|   Reference to beginning of substring + length of substring
-Reference to beginning of substring
+|   End of the substring
+Beginning of the C-string, Beginning of the substring
 ```
 
 An example without sole-ownership:
@@ -261,8 +285,8 @@ s1.pop_back();
 t e s t \0
 ^     ^
 |     |
-|     Reference to beginning of substring + length of substring
-Reference to beginning of substring
+|     End of the substring
+Beginning of the C-string, Beginning of the substring
 ```
 
 `s1`'s C-style substring reference after:
@@ -270,8 +294,8 @@ Reference to beginning of substring
 t e s t \0
 ^   ^
 |   |
-|   Reference to beginning of substring + length of substring
-Reference to beginning of substring
+|   End of the substring
+Beginning of the C-string, Beginning of the substring
 ```
 
 `s2`'s C-style substring reference is unchanged.
@@ -357,17 +381,18 @@ s = s.substring(2);
 t e s t \0
 ^     ^
 |     |
-|     Reference to beginning of substring + length of substring
-Reference to beginning of substring
+|     End of the substring
+Beginning of the C-string, Beginning of the substring
 ```
 
 `s`'s C-style substring reference after:
 ```
 t e s t \0
-  ^   ^
-  |   |
-  |   Reference to beginning of substring + length of substring
-  Reference to beginning of substring
+^   ^ ^
+|   | |
+|   | End of the substring
+|   Beginning of the substring
+Beginning of the C-string
 ```
 
 ---
