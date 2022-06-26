@@ -328,8 +328,101 @@ Creates a C-style string that contains the contents of the substring referenced 
 Example:
 ```cpp
 lk::string s{"test"};
-char *c_str = s.make_c_str();
+char *c_str{s.make_c_str()};
 // Do something other than freeing the memory...
 delete[] c_str; // Free the memory
 c_str = nullptr;
 ```
+
+---
+```cpp
+lk::string lk::string::substring(size_t start) const;
+```
+
+### Parameters
+`start`:
+- Index to start the substring at
+
+### Returns
+A substring of the string, starting at `start`. The same C-string is referenced, but the start is moved.
+
+Example:
+```cpp
+lk::string s{"test"};
+s = s.substring(2);
+```
+
+`s`'s C-style substring reference before:
+```
+t e s t \0
+^     ^
+|     |
+|     Reference to beginning of substring + length of substring
+Reference to beginning of substring
+```
+
+`s`'s C-style substring reference after:
+```
+t e s t \0
+  ^   ^
+  |   |
+  |   Reference to beginning of substring + length of substring
+  Reference to beginning of substring
+```
+
+---
+```cpp
+lk::string lk::string::substring(size_t start, size_t len) const;
+```
+
+### Parameter
+`start`:
+- The index to start the substring at
+
+`len`:
+- The length of the substring
+
+### Returns
+A substring of the string, starting at `start` and ending at the `start + len` index.
+
+---
+```cpp
+size_t lk::string::find_first_of(char c) const;
+size_t lk::string::find_last_of(char c) const;
+size_t lk::string::find_first_not_of(char c) const;
+size_t lk::string::find_last_not_of(char c) const;
+```
+
+### Parameters
+`c`:
+- Character to search for
+
+### Returns
+The index of the character in the string, or `lk::string::npos` if it doesn't exist.
+
+---
+```cpp
+lk::string lk::string::operator+(lk::string const &str) const;
+```
+Concatenates two strings.
+
+### Parameter
+`str`:
+- The other string to add with the string
+
+### Returns
+The concatenated string
+
+---
+```cpp
+bool lk::string::operator>(lk::string const &str) const;
+bool lk::string::operator<(lk::string const &str) const;
+bool lk::string::operator>=(lk::string const &str) const;
+bool lk::string::operator<=(lk::string const &str) const;
+bool lk::string::operator==(lk::string const &str) const;
+bool lk::string::operator!=(lk::string const &str) const;
+```
+ASCII character-by-character comparison.
+
+### Returns
+The result of the ASCII character-by-character comparison
