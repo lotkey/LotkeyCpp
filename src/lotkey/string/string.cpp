@@ -1,16 +1,24 @@
 #include "lotkey/string/string.hpp"
 
+#include <iostream>
 #include <memory>
 
 namespace lk {
 map<char *, size_t> string::s_ref_counts;
 
 string::string() : m_str{empty_str()}, m_len{0}, m_start{0} {}
+string::string(char c) : string{} { stream_and_copy(c); }
+string::string(int i) : string{} { stream_and_copy(i); }
+string::string(long l) : string{} { stream_and_copy(l); }
+string::string(long long ll) : string{} { stream_and_copy(ll); }
+string::string(unsigned u) : string{} { stream_and_copy(u); }
+string::string(unsigned long ul) : string{} { stream_and_copy(ul); }
+string::string(unsigned long long ull) : string{} { stream_and_copy(ull); }
+string::string(float f) : string{} { stream_and_copy(f); }
+string::string(double d) : string{} { stream_and_copy(d); }
+string::string(long double ld) : string{} { stream_and_copy(ld); }
 
-string::string(char const c) : m_str{add_reference(2)}, m_len{1}, m_start{0} {
-  m_str[0] = c;
-  m_str[1] = '\0';
-}
+string::string(std::string const &str) : string{str.c_str()} {}
 
 string::string(char const *c_str) : m_len{strlen(c_str)}, m_start{0} {
   m_str = add_copy_reference(c_str);
@@ -81,7 +89,9 @@ string::deref const string::front() { return at(0); }
 
 char string::front() const { return at(0); }
 
-string &string::operator+=(string const &str) {
+string &string::operator+=(string const &str) { return push_back(str); }
+
+string &string::push_back(string const &str) {
   size_t new_size = m_len + str.m_len;
   auto *tmp = m_str;
   m_str = add_reference(new_size + 1);
@@ -91,17 +101,6 @@ string &string::operator+=(string const &str) {
   remove_reference(tmp);
   m_len = new_size;
   m_start = 0;
-  return *this;
-}
-
-string &string::push_back(char c) {
-  auto *tmp = m_str;
-  m_len++;
-  m_str = add_reference(m_len + 1);
-  memcpy(m_str, tmp + m_start, m_len - 1);
-  remove_reference(tmp);
-  m_str[m_len - 1] = c;
-  m_str[m_len] = '\0';
   return *this;
 }
 
@@ -137,6 +136,14 @@ char const *string::c_str() {
     copy_and_shrink();
   }
   return m_str;
+}
+
+std::string string::std_str() const {
+  std::string str{};
+  for (size_t i = 0; i < m_len; i++) {
+    str += at(i);
+  }
+  return str;
 }
 
 char *string::make_c_str() const {
@@ -315,9 +322,15 @@ void string::remove_reference(char *c_str) {
 } // namespace lk
 
 std::istream &operator>>(std::istream &is, lk::string &str) {
+  str.clear();
   char c;
   is >> c;
-  while (c != '\0') {
+
+  while (isspace(c)) {
+    is >> c;
+  }
+
+  while (is && !isspace(c)) {
     str += c;
     is >> c;
   }
@@ -328,6 +341,5 @@ std::ostream &operator<<(std::ostream &os, lk::string const &str) {
   for (size_t i = 0; i < str.length(); i++) {
     os << str[i];
   }
-  os << '\0';
   return os;
 }

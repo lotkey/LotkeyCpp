@@ -38,7 +38,7 @@ Default constructor, string references the empty string.
 
 ---
 ```cpp
-lk::string::string(char const c);
+lk::string::string(char c);
 ```
 
 Constructs a string from a single character.
@@ -179,7 +179,7 @@ A getter/setter of the last character in the C-style substring reference. If the
 
 ---
 ```cpp
-char const lk::string::back() const;
+char lk::string::back() const;
 ```
 
 ## Returns
@@ -195,7 +195,7 @@ A getter/setter of the first character in the C-style substring reference. If th
 
 ---
 ```cpp
-char const lk::string::back() const;
+char lk::string::back() const;
 ```
 
 ## Returns
@@ -216,7 +216,7 @@ A reference to the string for compound assignment
 
 ---
 ```cpp
-lk::string &lk::string::push_back(char const c);
+lk::string &lk::string::push_back(char c);
 ```
 Appends `c` to the end of the string.
 

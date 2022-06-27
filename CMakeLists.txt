@@ -3,6 +3,7 @@ project(lotkeycpp)
 set(CMAKE_BUILD_TYPE Debug)
 
 add_library(lkcpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/lotkey/string/deref.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/lotkey/string/string.cpp
 )
 
